@@ -1,10 +1,13 @@
 BEGIN { %ENV = () }
 
 use strict;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use re::engine::PCRE;
 
 ok("Hello, world" !~ /(?<=Moose|Mo), (world)/);
 is($1, undef);
 ok("Hello, world" =~ /(?<=Hello|Hi), (world)/);
 is($1, 'world');
+
+no re::engine::PCRE;
+is(eval '"Hello, world" =~ /(?<=Moose|Mo), (world)/', undef);

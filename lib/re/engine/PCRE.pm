@@ -4,7 +4,7 @@ use strict;
 use vars qw( @ISA @EXPORT $VERSION );
 
 BEGIN {
-    $VERSION = '0.01';
+    $VERSION = '0.03';
 
     local $@;
     eval {
@@ -18,8 +18,14 @@ BEGIN {
     };
 }
 
+use constant PCRE_ENGINE => get_pcre_engine();
+
 sub import {
-    $^H{regcomp} = get_pcre_engine();
+    $^H{regcomp} = PCRE_ENGINE;
+}
+
+sub unimport {
+    $^H{regcomp} = 0 if $^H{regcomp} == PCRE_ENGINE;
 }
 
 1;
