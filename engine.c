@@ -2,27 +2,46 @@
 #include "perl.h"
 #include "XSUB.h"
 #include "pcre.h"
-
 const regexp_engine pcre_engine;
-
 pcre* compile(const char *pat, int opt);
+void regfree(pcre *preg);
+#define SAVEPVN(p,n)	((p) ? savepvn(p,n) : NULL)
+
+/* XXX dmq: should be in perl.h via regexp.h but its not right now */
+struct reg_substr_datum {
+    I32 min_offset;
+    I32 max_offset;
+    SV *substr;		/* non-utf8 variant */
+    SV *utf8_substr;	/* utf8 variant */
+    I32 end_shift;
+};
+struct reg_substr_data {
+    struct reg_substr_datum data[3];	/* Actual array */
+};
 
 regexp *
 PCRE_pregcomp(pTHX_ char *exp, char *xend, PMOP *pm)
 {
     register regexp *r;
-    register pcre *re = compile(exp, 0);
+    register pcre *re;
     unsigned long int length;
+    
 
-    Newxz(r, 1, regexp);
-
+    re = compile(exp, 0);
+    Newxz(r,1,regexp);
+    
+    /* XXX dmq: mandatory crap - pregfree needs to be changed */
+    Newxz(r->substrs, 1, struct reg_substr_data);
+    
+    /* setup engine */
     r->engine = &pcre_engine;
     r->refcnt = 1;
 
-    /* This line is crucial! */
-    r->precomp = savepvn(NULL, r->prelen);
-
+    /* Preserve a copy of the original pattern */
     r->prelen = xend - exp;
+    r->precomp = SAVEPVN(exp, r->prelen);
+
+    /* Store our private object */
     r->pprivate = re;
 
     pcre_fullinfo(
@@ -31,12 +50,16 @@ PCRE_pregcomp(pTHX_ char *exp, char *xend, PMOP *pm)
         PCRE_INFO_SIZE,
         &length
     );
-
+    
+    /* store the compile flags */
     r->extflags = pm->op_pmflags & RXf_PMf_COMPILETIME;
+    
+    /* set up space for the capture buffers */
     r->nparens  = (length - 1);
     Newxz(r->startp, length, I32);
     Newxz(r->endp, length, I32);
-
+    
+    /* return the regexp */
     return r;
 }
 
@@ -45,13 +68,13 @@ PCRE_regexec_flags(pTHX_ register regexp *r, char *stringarg, register char *str
                       char *strbeg, I32 minend, SV *sv, void *data, U32 flags)
 {
     register pcre *re = r->pprivate;
-    int rc;
+    I32 rc;
     int *ovector;
-    int i;
+    I32 i;
 
-    ovector = malloc(sizeof(int) * r->nparens);
+    Newx(ovector,r->nparens,int);
 
-    rc = pcre_exec(
+    rc = (I32)pcre_exec(
         re,         
         NULL,        
         strbeg,
@@ -69,17 +92,16 @@ PCRE_regexec_flags(pTHX_ register regexp *r, char *stringarg, register char *str
             r->startp[i] = ovector[i * 2];
             r->endp[i] = ovector[i * 2 + 1];
         }
-        free(ovector);
+        Safefree(ovector);
         return 1;
     }
     else {
-        int i;
-        for (i = 0 ; i <= r->nparens ; i++) {
+        for (i = 0 ; i <= (I32)r->nparens ; i++) {
             r->startp[i] = -1;
             r->endp[i] = -1;
         }
         r->lastparen = r->lastcloseparen = 0;
-        free(ovector);
+        Safefree(ovector);
         return 0;
     }
 
@@ -101,7 +123,7 @@ PCRE_re_intuit_string(pTHX_ regexp *prog)
 void
 PCRE_regfree_internal(pTHX_ struct regexp *r)
 {
-    Safefree(r->pprivate);
+    PerlMemShared_free(r->pprivate);
 }
 
 void *

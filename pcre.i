@@ -19,7 +19,6 @@ typedef SV* Perl_Scalar;
 #include "pcre.h"
 
 pcre* compile(const char *pat, int opt) {
-    regexp_engine PL_pcre_engine;
     pcre *re;
     const char *error;
     int erroffset;
@@ -46,7 +45,7 @@ Perl_Scalar execute(const pcre *re, const char *str, int opt) {
         &length
     );
 
-    ovector = malloc(sizeof(int) * length);
+    Newx(ovector, length, int);
 
     rc = pcre_exec(
         re,         
@@ -65,15 +64,25 @@ Perl_Scalar execute(const pcre *re, const char *str, int opt) {
         }
     }
 
-    free(ovector);
+    Safefree(ovector);
 
     return newRV_inc((SV*)seq);
 }
-
+extern void *pcre_malloc_wrapper(size_t s) {
+    return PerlMemShared_malloc(s);
+}
+extern void pcre_free_wrapper(void *p) {
+    PerlMemShared_free(p);
+}
 extern regexp_engine pcre_engine;
 
 int get_pcre_engine () { return (int)(&pcre_engine); }
-
+/*
+    / * this needs to be done at boot. * /
+    pcre_malloc = pcre_stack_malloc = pcre_malloc_wrapper;   
+    pcre_free  =  pcre_stack_free = pcre_free_wrapper;    
+        
+*/        
 %}
 
 extern int get_pcre_engine();
