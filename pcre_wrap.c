@@ -2662,24 +2662,6 @@ XS(_wrap_pcre_info) {
 }
 
 
-XS(_wrap_pcre_maketables) {
-  {
-    unsigned char *result = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: pcre_maketables();");
-    }
-    result = (unsigned char *)pcre_maketables();
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_unsigned_char, 0 | 0); argvi++ ;
-    XSRETURN(argvi);
-  fail:
-    SWIG_croak_null();
-  }
-}
-
-
 XS(_wrap_pcre_study) {
   {
     pcre *arg1 = (pcre *) 0 ;
@@ -4035,7 +4017,6 @@ static swig_command_info swig_commands[] = {
 {"re::engine::PCRE::pcre_get_substring", _wrap_pcre_get_substring},
 {"re::engine::PCRE::pcre_get_substring_list", _wrap_pcre_get_substring_list},
 {"re::engine::PCRE::pcre_info", _wrap_pcre_info},
-{"re::engine::PCRE::pcre_maketables", _wrap_pcre_maketables},
 {"re::engine::PCRE::pcre_study", _wrap_pcre_study},
 {"re::engine::PCRE::pcre_version", _wrap_pcre_version},
 {"re::engine::PCRE::pcre_extra_flags_set", _wrap_pcre_extra_flags_set},

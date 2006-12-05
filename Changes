@@ -1,3 +1,8 @@
+[Changes for 0.04 - 2006-12-05]
+
+* Build fixes for VC++.
+  Reported by: Yves
+
 [Changes for 0.03 - 2006-12-05]
 
 * Support for "no re::engine::PCRE".

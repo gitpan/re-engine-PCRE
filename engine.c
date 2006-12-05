@@ -73,13 +73,13 @@ PCRE_regexec_flags(pTHX_ register regexp *r, char *stringarg, register char *str
         return 1;
     }
     else {
-        free(ovector);
         int i;
         for (i = 0 ; i <= r->nparens ; i++) {
             r->startp[i] = -1;
             r->endp[i] = -1;
         }
         r->lastparen = r->lastcloseparen = 0;
+        free(ovector);
         return 0;
     }
 
