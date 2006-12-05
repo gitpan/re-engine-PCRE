@@ -7,18 +7,6 @@ pcre* compile(const char *pat, int opt);
 void regfree(pcre *preg);
 #define SAVEPVN(p,n)	((p) ? savepvn(p,n) : NULL)
 
-/* XXX dmq: should be in perl.h via regexp.h but its not right now */
-struct reg_substr_datum {
-    I32 min_offset;
-    I32 max_offset;
-    SV *substr;		/* non-utf8 variant */
-    SV *utf8_substr;	/* utf8 variant */
-    I32 end_shift;
-};
-struct reg_substr_data {
-    struct reg_substr_datum data[3];	/* Actual array */
-};
-
 regexp *
 PCRE_pregcomp(pTHX_ char *exp, char *xend, PMOP *pm)
 {
@@ -29,9 +17,6 @@ PCRE_pregcomp(pTHX_ char *exp, char *xend, PMOP *pm)
 
     re = compile(exp, 0);
     Newxz(r,1,regexp);
-    
-    /* XXX dmq: mandatory crap - pregfree needs to be changed */
-    Newxz(r->substrs, 1, struct reg_substr_data);
     
     /* setup engine */
     r->engine = &pcre_engine;

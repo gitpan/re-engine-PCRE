@@ -1,6 +1,13 @@
 [Changes for 0.05 - 2006-12-05]
 Yves Orton
 
+* Blead was patched in 29468 to resolve the issues raised by v 0.5 of
+  this module.
+  See: http://public.activestate.com/cgi-bin/perlbrowse/29468
+
+[Changes for 0.05 - 2006-12-05]
+Yves Orton
+
 * Changes related to getting things to work on a threaded perl.
   This identified several issues with the API that needed to be 
   worked around. Once the appropriate patches are applied to perl
