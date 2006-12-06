@@ -3,9 +3,40 @@
 #include "XSUB.h"
 #include "pcre.h"
 const regexp_engine pcre_engine;
-pcre* compile(const char *pat, int opt);
 void regfree(pcre *preg);
 #define SAVEPVN(p,n)	((p) ? savepvn(p,n) : NULL)
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+XS(XS_re__engine__PCRE_get_pcre_engine) {
+  {
+    dXSARGS;
+    XSRETURN_IV( (IV)(&pcre_engine) );
+  }
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif
+XS(boot_re__engine__PCRE); /* prototype to pass -Wmissing-prototypes */
+XS(boot_re__engine__PCRE)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    char* file = __FILE__;
+
+    PERL_UNUSED_VAR(cv); /* -W */
+    PERL_UNUSED_VAR(items); /* -W */
+    XS_VERSION_BOOTCHECK ;
+
+    newXS("re::engine::PCRE::get_pcre_engine", XS_re__engine__PCRE_get_pcre_engine, file);
+    XSRETURN_YES;
+}
+
 
 regexp *
 PCRE_pregcomp(pTHX_ char *exp, char *xend, PMOP *pm)
@@ -13,9 +44,10 @@ PCRE_pregcomp(pTHX_ char *exp, char *xend, PMOP *pm)
     register regexp *r;
     register pcre *re;
     unsigned long int length;
-    
+    const char *error;
+    int erroffset;
 
-    re = compile(exp, 0);
+    re = (pcre*)(pcre_compile(exp, 0, &error, &erroffset, NULL));
     Newxz(r,1,regexp);
     
     /* setup engine */

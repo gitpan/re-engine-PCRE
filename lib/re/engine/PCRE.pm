@@ -4,7 +4,7 @@ use strict;
 use vars qw( @ISA @EXPORT $VERSION );
 
 BEGIN {
-    $VERSION = '0.06';
+    $VERSION = '0.07';
 
     local $@;
     eval {

@@ -1,42 +1,33 @@
-[Changes for 0.05 - 2006-12-05]
-Yves Orton
+[Changes for 0.07 - 2006-12-06]
+
+* Remove SWIG-related source files as they are no longer required.
+
+[Changes for 0.06 - 2006-12-05]
 
 * Blead was patched in 29468 to resolve the issues raised by v 0.5 of
   this module.
   See: http://public.activestate.com/cgi-bin/perlbrowse/29468
+  Contributed by: Yves Orton
 
 [Changes for 0.05 - 2006-12-05]
-Yves Orton
 
 * Changes related to getting things to work on a threaded perl.
   This identified several issues with the API that needed to be 
   worked around. Once the appropriate patches are applied to perl
   they wont be needed.
-  
-* This includes stuff relating to the SWIG wrapper which I wasnt sure 
-  how to do so hand hacked the pcre_wrap.c. The pcre.i file contains
-  a comment indicating some code that needs to go into the SWIG_init()
-  function.
-
-  NOTE: To be honest I think SWIG in this context is overkill. I think
-  it could be stripped down to a simple XS module and most of prce_wrap
-  thrown away. See the bleadperl ext/re directory for some template
-  code that could be taken.
+  Contributed by: Yves Orton
 
 [Changes for 0.04 - 2006-12-05]
-Audrey Tang
 
 * Build fixes for VC++.
-  Reported by: Yves
+  Reported by: Yves Orton
 
 [Changes for 0.03 - 2006-12-05]
-Audrey Tang
 
 * Support for "no re::engine::PCRE".
   Suggested by: Gaal Yahas
 
 [Changes for 0.01 - 2006-12-05]
-Audrey Tang
 
 * Initial CPAN release to win a metre of beer:
     http://use.perl.org/article.pl?sid=06/12/04/1526217.

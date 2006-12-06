@@ -20,8 +20,6 @@ MANIFEST			This list of files
 META.yml
 pcre.c
 pcre.h
-pcre.i
-pcre_wrap.c
 pcreposix.c
 pcreposix.h
 printint.c
