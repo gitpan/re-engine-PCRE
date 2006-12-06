@@ -1,3 +1,8 @@
+[Changes for 0.09 - 2006-12-06]
+
+* I missed a version check in the updated version of Makefile.PL
+  Corrected here. Yves
+
 [Changes for 0.08 - 2006-12-06]
 
 * Complete changeover to XS and as part of that switch to ExtUtils::MakeMaker

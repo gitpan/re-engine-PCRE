@@ -1,5 +1,6 @@
 use strict;
 use ExtUtils::MakeMaker;
+use 5.009005;
 my @cfiles = grep { !/printint|ucp(?:type)?table|engine/ } glob("*.c");
 my @extra = ('engine.c');    
 my $object = join " ", map { my $s=$_; $s=~s/\.c$/\$(OBJ_EXT)/; $s } @cfiles,@extra;
