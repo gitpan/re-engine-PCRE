@@ -1,17 +1,8 @@
 Changes
 chartables.c
 config.h
-engine.c
+engine.xs
 get.c
-inc/Module/Install.pm
-inc/Module/Install/Base.pm
-inc/Module/Install/Can.pm
-inc/Module/Install/Compiler.pm
-inc/Module/Install/Fetch.pm
-inc/Module/Install/Makefile.pm
-inc/Module/Install/Metadata.pm
-inc/Module/Install/Win32.pm
-inc/Module/Install/WriteAll.pm
 internal.h
 lib/re/engine/PCRE.pm
 LICENCE
@@ -26,6 +17,7 @@ printint.c
 SIGNATURE
 study.c
 t/1-basic.t
+TODO
 ucp.c
 ucp.h
 ucpinternal.h

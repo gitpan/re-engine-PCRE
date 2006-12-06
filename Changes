@@ -1,3 +1,21 @@
+[Changes for 0.08 - 2006-12-06]
+
+* Complete changeover to XS and as part of that switch to ExtUtils::MakeMaker
+  This release is 30k smaller compressed!
+  
+* Provide extra boot time logic to set up the correct pcre_malloc hooks
+  so that the extension uses perls memory management routines and not
+  malloc directly. This is especially important for threading as we have 
+  to ensure we are using shared memory.
+
+* Switch to a static build of PCRE, we dont need to export any of its API
+  as we are statically linking to it anyway. This resolves some warnings 
+  on Win32.
+
+* Added a TODO list.
+
+  Contributed by: Yves Orton
+
 [Changes for 0.07 - 2006-12-06]
 
 * Remove SWIG-related source files as they are no longer required.

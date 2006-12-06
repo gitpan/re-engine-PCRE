@@ -1,13 +1,11 @@
-abstract: Perl-compatible regular expressions
-author: Audrey Tang
-distribution_type: module
-generated_by: Module::Install version 0.64
-license: perl
-name: re-engine-PCRE
-no_index: 
-  directory: 
-    - inc
-    - t
-requires: 
-  perl: 5.9.5
-version: 0.03
+--- #YAML:1.0
+name:                re-engine-PCRE
+version:             0.08
+abstract:            ~
+license:             ~
+generated_by:        ExtUtils::MakeMaker version 6.31_01
+distribution_type:   module
+requires:     
+meta-spec:
+    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
+    version: 1.2

@@ -1,0 +1,39 @@
+**** TODO for re::engine::PCRE  ****
+
+1. More tests!!!
+
+2. Review build warnings. Sizes of types can vary depending on perl build 
+   settings and architecture.
+
+    pcre.c
+    pcre.c(622) : warning C4244: '=' : conversion from 'long' to 'pcre_uint16', possible loss of data
+    pcre.c(623) : warning C4244: '=' : conversion from 'long' to 'pcre_uint16', possible loss of data
+    pcre.c(624) : warning C4244: '=' : conversion from 'long' to 'pcre_uint16', possible loss of data
+    pcre.c(625) : warning C4244: '=' : conversion from 'long' to 'pcre_uint16', possible loss of data
+    pcre.c(627) : warning C4244: '=' : conversion from 'long' to 'pcre_uint16', possible loss of data
+    pcre.c(629) : warning C4244: '=' : conversion from 'long' to 'pcre_uint16', possible loss of data
+    pcre.c(630) : warning C4244: '=' : conversion from 'long' to 'pcre_uint16', possible loss of data
+    pcre.c(4464) : warning C4101: 'runlength' : unreferenced local variable
+    study.c
+    study.c(444) : warning C4090: 'function' : different 'const' qualifiers
+
+2. Add UTF8 support
+
+3. Perl expects to be able to read some flags so that it manage various 
+   cases like anchored patterns and things like that. It would be useful
+   if we did this.
+
+4. Perl can use Fast Boyer Moore matching to do fast rejections of a pattern
+   Currently we dont populate this field at all.
+ 
+5. Upgrade to the latest PCRE
+
+  
+
+
+
+
+
+
+
+   
