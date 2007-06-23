@@ -1,3 +1,21 @@
+[Changes for 0.10 - 2007-06-23]
+
+* Release from new comaint: Ævar Arnfjörð Bjarmason
+
+* Rewrote the whole thing to work on the latest blead which has
+  undergone massive changes in the regex API. Threw out the old
+  re::engine::PCRE and started fresh with re::engine::Plan9 as a base.
+
+* Upgraded to PCRE 7.2, now supports named captures
+
+* Made s/// work. Offsets weren't properly populated in exec in the
+  old version
+
+* Brought back Module::Install to make the tarball huger than ever
+  before, sorry Yves!
+
+* Lots of tests including some from perl core in t/
+
 [Changes for 0.09 - 2006-12-06]
 
 * I missed a version check in the updated version of Makefile.PL

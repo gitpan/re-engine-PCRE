@@ -1,11 +1,22 @@
---- #YAML:1.0
-name:                re-engine-PCRE
-version:             0.09
-abstract:            ~
-license:             ~
-generated_by:        ExtUtils::MakeMaker version 6.31_01
-distribution_type:   module
-requires:     
-meta-spec:
-    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
-    version: 1.2
+--- 
+abstract: Perl-compatible regular expression engine
+author: "\xC3\x86var Arnfj\xC3\xB6r\xC3\xB0 Bjarmason <avar@cpan.org>"
+build_requires: 
+  Config: 0
+  Test::More: 0
+  XSLoader: 0
+distribution_type: module
+generated_by: Module::Install version 0.65
+license: perl
+meta-spec: 
+  url: http://module-build.sourceforge.net/META-spec-v1.3.html
+  version: 1.3
+name: re-engine-PCRE
+no_index: 
+  directory: 
+    - inc
+    - t
+requires: 
+  perl: 5.9.5
+tests: t/*.t t/*/*.t
+version: 0.10
