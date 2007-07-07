@@ -41,8 +41,8 @@ SKIP: {
     skip 'bug in PCRE.xs' => 5;
     my ($a, $b, $c, $d, $e) = split / /, " x y ";
     is($a, "");
-    is($b, "foo");
-    is($c, "bar");
+    is($b, "x");
+    is($c, "y");
     is($d, "");
     is($e, undef);
 }

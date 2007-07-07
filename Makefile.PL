@@ -4,7 +4,7 @@ use inc::Module::Install;
 perl_version '5.009005';
 
 name 're-engine-PCRE';
-author 'Ævar Arnfjörð Bjarmason <avar@cpan.org>';
+{ use utf8; author 'Ævar Arnfjörð Bjarmason <avar@cpan.org>'; }
 
 abstract_from 'PCRE.pm';
 license_from 'PCRE.pm';

@@ -1,3 +1,21 @@
+[Changes for 0.11 - 2007-07-07]
+
+* Release by: Ævar Arnfjörð Bjarmason
+
+* PCRE.xs: Upgraded the split() optimization mechanism to match blead changes
+
+* PCRE.xs: Support multiple named captures
+
+* t/split.t: Fixet typo: foo|bar => x|y, test still fails though
+
+* t/perl/regexp_nc_tie.t: Pulled test from blead
+
+* t/perl/regexp.t: Enabled more tests (e.g. named capture)
+
+* Removed some C++ files from pcre that snuck in the distro
+
+* Makefile.PL: { use utf8; for the non-ascii author name }
+
 [Changes for 0.10 - 2007-06-23]
 
 * Release from new comaint: Ævar Arnfjörð Bjarmason

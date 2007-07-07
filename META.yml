@@ -1,6 +1,6 @@
 --- 
 abstract: Perl-compatible regular expression engine
-author: "\xC3\x86var Arnfj\xC3\xB6r\xC3\xB0 Bjarmason <avar@cpan.org>"
+author: "Ævar Arnfjörð Bjarmason <avar@cpan.org>"
 build_requires: 
   Config: 0
   Test::More: 0

@@ -79,9 +79,43 @@ my $skip_rest;
 # Tests known to fail under PCRE
 my %pcre_fail;
 my @pcre_fail = (
-    813 .. 830, 835, 867 .. 868, 970, 1021, 1029, 1035,
-    1044, 1050 .. 1051, 1191, 1192, 1194 .. 1195, 1217 .. 1223,
-    1253, 1291, 1293 .. 1330
+    # Pathological patterns that run into PCRE_ERROR_MATCHLIMIT
+    813 .. 830,
+
+    # err: [a-[:digit:]] => range out of order in character class
+    835,
+
+    # aba =~ ^(a(b)?)+$ and aabbaa =~ ^(aa(bb)?)+$
+    867 .. 868,
+
+    # err: (?!)+ => nothing to repeat
+    970,
+
+    # XXX: <<<>>> pattern
+    1021,
+
+    # XXX: Some named capture error
+    1050 .. 1051,
+
+    # (*F) / (*FAIL)
+    1191, 1192,
+
+    # (*A) / (*ACCEPT)
+    1194 .. 1195,
+
+    # (?'${number}$optional_stuff' key names)
+    1217 .. 1223,
+
+    # XXX: Some named capture error
+    1253,
+
+    # XXX: \R doesn't match an utf8::upgraded \x{85}, we need to
+    # always convert the subject and pattern to utf-8 for these cases
+    # to work
+    1291, 1293 .. 1296,
+
+    # These cause utf8 warnings, see above
+    1307, 1309, 1310, 1311, 1312, 1318, 1320 .. 1323,
 );
 @pcre_fail{@pcre_fail} = ();
 

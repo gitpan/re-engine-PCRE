@@ -26,17 +26,19 @@ PCRE_comp(pTHX_ const SV * const pattern, const U32 flags)
     int nparens;
 
     /* pcre_compile */
-    int options = 0;
+    int options = PCRE_DUPNAMES;
 
     /* named captures */
     int namecount;
 
     /* C<split " ">, bypass the PCRE engine alltogether and act as perl does */
-    if (flags & RXf_SKIPWHITE)
-        extflags |= RXf_WHITE;
+    if (flags & RXf_SPLIT && plen == 1 && exp[0] == ' ')
+        extflags |= (RXf_SKIPWHITE|RXf_WHITE);
+
     /* RXf_START_ONLY - Have C<split /^/> split on newlines */
-    else if (plen == 1 && exp[0] == '^')
+    if (plen == 1 && exp[0] == '^')
         extflags |= RXf_START_ONLY;
+
     /* RXf_WHITE - Have C<split /\s+/> split on whitespace */
     else if (plen == 3 && strnEQ("\\s+", exp, 3))
         extflags |= RXf_WHITE;
@@ -230,6 +232,7 @@ PCRE_make_nametable(REGEXP * const rx, pcre * const ri, const int namecount)
     unsigned char *name_table, *tabptr;
     int name_entry_size;
     int i;
+    IV j;
 
     /* The name table */
     pcre_fullinfo(
@@ -255,11 +258,37 @@ PCRE_make_nametable(REGEXP * const rx, pcre * const ri, const int namecount)
         const char *key = tabptr + 2;
         int npar = (tabptr[0] << 8) | tabptr[1];
         SV *sv_dat = *hv_fetch(rx->paren_names, key, strlen(key), TRUE);
-            
-        (void)SvUPGRADE(sv_dat,SVt_PVNV);
-        sv_setpvn(sv_dat, (char *)&(npar), sizeof(I32));
-        SvIOK_on(sv_dat);
-        SvIVX(sv_dat)= 1;
+
+        if (!sv_dat)
+            croak("panic: paren_name hash element allocation failed");
+
+        if (!SvPOK(sv_dat)) {
+            /* The first (and maybe only) entry with this name */
+            (void)SvUPGRADE(sv_dat,SVt_PVNV);
+            sv_setpvn(sv_dat, (char *)&(npar), sizeof(I32));
+            SvIOK_on(sv_dat);
+            SvIVX(sv_dat)= 1;
+        } else {
+            /* An entry under this name has appeared before, append */
+
+            IV count = SvIV(sv_dat);
+            I32 *pv = (I32*)SvPVX(sv_dat);
+            IV j;
+
+            for (j = 0 ; j < count ; j++) {
+                if (pv[i] == npar) {
+                    count = 0;
+                    break;
+                }
+            }
+
+            if (count) {
+                pv = (I32*)SvGROW(sv_dat, SvCUR(sv_dat) + sizeof(I32)+1);
+                SvCUR_set(sv_dat, SvCUR(sv_dat) + sizeof(I32));
+                pv[count] = npar;
+                SvIVX(sv_dat)++;
+            }
+        }
 
         tabptr += name_entry_size;
     }
