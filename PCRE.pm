@@ -7,7 +7,7 @@ our @ISA = 'Regexp';
 
 BEGIN
 {
-    $VERSION = '0.11';
+    $VERSION = '0.12';
     XSLoader::load __PACKAGE__, $VERSION;
 }
 

@@ -1,3 +1,15 @@
+[Changes for 0.12 - 2007-07-12]
+
+* Release by: Ævar Arnfjörð Bjarmason
+
+* Moved all the pcre \.[ch]$ files into libpcre, the build system in
+  now in two parts.
+
+  This makes things a bit cleaner and PCRE.h and pcre.h should not
+  clash any more on case-insensitive file systems.
+
+* t/split-null.t: New failing test for split //
+
 [Changes for 0.11 - 2007-07-07]
 
 * Release by: Ævar Arnfjörð Bjarmason
