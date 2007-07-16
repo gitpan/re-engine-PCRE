@@ -90,3 +90,21 @@ sub pcre_config_h
 
     return join ' ', map { "-D$_" } @def;
 }
+
+package MY;
+
+# Don't make .bs files
+sub dynamic
+{
+    my $self = shift;
+    my $res = $self->SUPER::dynamic(@_);
+    $res =~ s/\s*\$\(INST_BOOT\)//;
+    $res;
+}
+
+# Don't make dynamic libs from the .o files, just the objects
+sub dynamic_lib
+{
+    '$(INST_DYNAMIC): $(OBJECT)' . "\n" .
+    "\t" . '$(NOECHO) $(NOOP)' . "\n"
+}

@@ -1,3 +1,11 @@
+[Changes for 0.13 - 2007-07-16]
+
+* Release by: Ævar Arnfjörð Bjarmason
+
+* libpcre/Makefile.PL: Don't make the libpcre.so dynamic library
+
+* t/1-basic.t, PCRE.xs, LICENSE, Changes: s/\r\K\n//g;
+
 [Changes for 0.12 - 2007-07-12]
 
 * Release by: Ævar Arnfjörð Bjarmason
