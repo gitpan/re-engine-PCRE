@@ -1,8 +1,8 @@
 --- #YAML:1.0
 name:                re-engine-PCRE
-version:             0.14
-abstract:            ~
-license:             ~
+version:             0.15
+abstract:            Perl-compatible regular expression engine
+license:             perl
 author:              
     - Ævar Arnfjörð Bjarmason <avar@cpan.org>
 generated_by:        ExtUtils::MakeMaker version 6.42

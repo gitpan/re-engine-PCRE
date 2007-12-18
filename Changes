@@ -1,4 +1,12 @@
-[Changes for 0.13 - 2007-12-18]
+[Changes for 0.15 - 2007-12-18]
+
+* Release by: Ævar Arnfjörð Bjarmason
+
+* Make split // use RXf_NULL
+
+* ABSTRACT_FROM and LICENSE in Makefile.PL
+
+[Changes for 0.14 - 2007-12-18]
 
 * Release by: Ævar Arnfjörð Bjarmason
 
